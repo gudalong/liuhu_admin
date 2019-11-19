@@ -1,18 +1,15 @@
 import React, { Component } from "react";
-// import { Button, Switch } from "antd";
 import routes from "./configs/routes";
 import { BrowserRouter as Router, Route,Switch} from "react-router-dom";
+import './index.less'
 
 export default class App extends Component {
   render() {
     return (
       <Router>
-        {/* <Button type="primary">BUTTON</Button> */}
-
-
         <Switch>
-          {routes.map(route => {
-            return <Route {...route} />;
+          {routes.map((route,index) => {
+            return <Route {...route} key={index} />;
           })}
         </Switch>
       </Router>
