@@ -1,49 +1,37 @@
 import React, { Component } from "react";
 import logo from "./logo.png";
-import { Form, Input, Button, Icon,message } from "antd";
+import { Form, Input, Button, Icon } from "antd";
 import "./index.less";
-import axios from 'axios'
+import { connect } from "react-redux";
+import { getUserAsync } from "../../redux/action-creators/user";
 
 const { Item } = Form;
 
+@connect(null, { getUserAsync })
 @Form.create()
 class Login extends Component {
-
   //提交
   handleSubmit = e => {
     e.preventDefault();
     const {
-      form: { validateFields ,resetFields},
+      form: { validateFields, resetFields },
       history
     } = this.props;
-    
-    validateFields((err,values)=>{
-      if(!err){
-         axios
-         .post('http://localhost:5000/api/login',values)
-          .then((response)=>{
-            //请求成功，接下来根据返回的数据data的status判断用户名和密码是否匹配
-            if(response.data.status === 0){
-              //匹配成功，添加路径
-              history.push('/');
-            }else{
-              //匹配失误，弹出返回的错误信息
-              message.error(response.data.msg);
-              //重置
-              resetFields(['password']);
-            }
+
+    validateFields((err, values) => {
+      if (!err) {
+        const { username, password } = values;
+        this.props
+          .getUserAsync(username, password)
+          .then(response => {
+            history.push("/");
           })
-          .catch((err)=>{
-            console.log(err);
-            
-            //弹出错误信息
-            message.error('网络错误~');
+          .catch(err => {
             //重置
-            resetFields(['password']);
-          }) 
+            resetFields(["password"]);
+          });
       }
-    })
-   
+    });
   };
   //表单校验
   validator = (rule, value, callback) => {
@@ -54,9 +42,9 @@ class Login extends Component {
       callback(name + "长度不能超过13个字符！");
     } else if (value.length < 4) {
       callback(name + "长度不能少于4个字符！");
-    } else if(!/\w/.test(value)){
+    } else if (!/\w/.test(value)) {
       callback(name + "只能包含英文、数字和下划线");
-    } else{
+    } else {
       //callback必须调用
       callback();
     }
@@ -81,7 +69,7 @@ class Login extends Component {
                   // { min: 4, message: "用户名长度不能小于4个字符" },
                   // { max: 13, message: "用户名长度不能超过13个字符" },
                   // { pattern: /\w/, message: "用户名只能包含英文、数字和下划线"},
-                  { 
+                  {
                     /** 这种表单校验方式相较于上种，可以复用 */
                     validator: this.validator
                   }

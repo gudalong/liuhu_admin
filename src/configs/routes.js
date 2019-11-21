@@ -1,5 +1,5 @@
 import Home from '../components/home'
-import Login from '../components/login'
+import Login from '../containers/login'
 import NotFound from '../components/404'
 
 export default  [
