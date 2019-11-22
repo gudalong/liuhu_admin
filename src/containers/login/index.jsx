@@ -3,6 +3,7 @@ import logo from "./logo.png";
 import { Form, Input, Button, Icon } from "antd";
 import "./index.less";
 import { connect } from "react-redux";
+import {setItem} from '../../utils/storage'
 import { getUserAsync } from "../../redux/action-creators/user";
 
 const { Item } = Form;
@@ -25,6 +26,7 @@ class Login extends Component {
           .getUserAsync(username, password)
           .then(response => {
             history.push("/");
+            setItem('user',response)
           })
           .catch(err => {
             //重置
