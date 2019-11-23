@@ -15,7 +15,7 @@
    addLessLoader({
      javascriptEnabled: true,
      modifyVars: {
-       '@primary-color': 'skyblue'
+       '@primary-color': '#1DA57A'
      },
    }),
    // 添加装饰器语法

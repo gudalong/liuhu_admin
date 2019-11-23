@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import logo from "./logo.png";
+import logo from "../../assets/img/logo.png";
 import { Form, Input, Button, Icon } from "antd";
 import "./index.less";
 import { connect } from "react-redux";
