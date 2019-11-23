@@ -5,9 +5,11 @@ import "./index.less";
 import { connect } from "react-redux";
 import {setItem} from '../../utils/storage'
 import { getUserAsync } from "../../redux/action-creators/user";
+import checkLogin from '../with-check-login/index'
 
 const { Item } = Form;
 
+@checkLogin
 @connect(null, { getUserAsync })
 @Form.create()
 class Login extends Component {

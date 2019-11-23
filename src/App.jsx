@@ -1,16 +1,27 @@
 import React, { Component } from "react";
-import routes from "./configs/routes";
-import { BrowserRouter as Router, Route,Switch} from "react-router-dom";
-import './index.less'
+import { noAuthRoutes, authRoutes } from "./configs/routes";
+import BasicLayout from "./components/basic-layout";
+// import { BrowserRouter as Router, Route,Switch} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { Router } from "react-router";
+import history from "./utils/history";
+import "./index.less";
 
 export default class App extends Component {
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <Switch>
-          {routes.map((route,index) => {
+          {noAuthRoutes.map((route, index) => {
             return <Route {...route} key={index} />;
           })}
+          <BasicLayout>
+            <Switch>
+              {authRoutes.map((route, index) => {
+                return <Route {...route} key={index} />;
+              })}
+            </Switch>
+          </BasicLayout>
         </Switch>
       </Router>
     );

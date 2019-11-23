@@ -4,7 +4,7 @@ import LeftNav from "./left-nav";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-export default class Home extends Component {
+export default class BasicLayout extends Component {
   state = {
     collapsed: false
   };
@@ -13,7 +13,6 @@ export default class Home extends Component {
     console.log(collapsed);
     this.setState({ collapsed });
     this.h1logo.classList.toggle("none");
-    
   };
 
   componentDidMount() {
@@ -39,7 +38,7 @@ export default class Home extends Component {
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
-              Bill is a cat.
+              {this.props.children}
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>

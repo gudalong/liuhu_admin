@@ -4,6 +4,9 @@ import {
 } from 'antd'
 import codeMessage from '../configs/code-message'
 import store from '../redux/store'
+import {removeItem} from '../utils/storage'
+import {removeUserSuccess} from '../redux/action-creators/user'
+import history from '../utils/history'
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/api",
@@ -48,22 +51,37 @@ axiosInstance.interceptors.request.use(
 
 //响应拦截器
 axiosInstance.interceptors.response.use(
+  //服务器响应成功的时候触发的
   ({
     data
   }) => {
     if (data.status === 0) {
+      //登录成功
       return (data.data)
     } else {
-      message.error(data.msg);
-      return Promise.reject(data.msg)
+      //登录失败
+      message.error(data.msg);   //提示
+      return Promise.reject(data.msg)   //return返回错误信息
     }
   },
+  //响应失败的时候触发
   (error) => {
-
     let errorMessage = ''
+
     if (error.response) {
+      //在响应信息中如果有response，就说明服务器返回了响应，但是因为各种原因，返回的是错误代码
       errorMessage = codeMessage[error.response.status]
+      
+      if(error.message.status === 401){
+        //401说明token绝对有问题，需要清除localstorage和redux中的token ，并且定向到‘/login’
+        removeItem();
+        store.dispatch(removeUserSuccess());
+        //因为不是在render中所以用history来进行跳转网址
+        history.push('/login')
+      }
+
     } else {
+      //在响应信息中如果没有response，就说明服务器根本没有返回响应，就根据返回的messag判断是什么失误，多因为网络错误
       if (error.message.indexof('Network Error') !== -1) {
         errorMessage = '网络连接异常~请检查网络连接'
       } else if (error.message.indexof('timeout') !== -1) {

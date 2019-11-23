@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import checkLogin from '../../containers/with-check-login'
 
-export default class NotFound extends Component {
+@checkLogin
+class NotFound extends Component {
   render() {
     return (
       <div>
@@ -9,3 +11,5 @@ export default class NotFound extends Component {
     )
   }
 }
+
+export default  NotFound

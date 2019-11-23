@@ -7,12 +7,17 @@
 
 import reqLogin from '../../api/index'
 import {
-  GET_USER_SUCCESS
+  GET_USER_SUCCESS,
+  REMOVE_USER_SUCCESS
 } from '../action-types/user'
 
 const getUserSuccess = (user) => ({
   type: GET_USER_SUCCESS,
   data: user
+})
+export const removeUserSuccess = () => ({
+  type: REMOVE_USER_SUCCESS,
+  
 })
 
 export const getUserAsync = (username, password) => {
