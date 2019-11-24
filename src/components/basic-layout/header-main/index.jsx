@@ -7,7 +7,10 @@ import { removeUserSuccess } from "../../../redux/action-creators/user";
 import store from "../../../redux/store";
 import { withRouter } from "react-router-dom";
 import menus from "../../../configs/menus";
+import updateTime from "../../../utils/time";
 import "./index.less";
+
+
 
 @withRouter
 @connect(state => ({ username: state.user.user.username }), {
@@ -15,7 +18,8 @@ import "./index.less";
 })
 class HeaderMain extends Component {
   state = {
-    isScreenFull: false
+    isScreenFull: false,
+    time: updateTime(Date.now())
   };
 
   toggleScreen = () => {
@@ -30,13 +34,20 @@ class HeaderMain extends Component {
     });
   };
 
+  timer='';
   componentDidMount = () => {
     screenfull.on("change", this.screenFn);
+    this.timer = setInterval(() => {
+      this.setState({
+        time: updateTime(Date.now())
+      });
+    }, 1000);
   };
-
+  
   componentWillUnmount = () => {
     //万一元素不存在的时候就要解绑函数
     screenfull.off("change", this.screenFn);
+    clearInterval(this.timer);
   };
 
   showConfirm = () => {
@@ -68,14 +79,13 @@ class HeaderMain extends Component {
         if (findTitle) {
           return findTitle.title;
         }
-      }else{
+      } else {
         if (menu.path === pathname) {
           return menu.title;
         }
       }
     }
   };
-
 
   render() {
     const { username } = this.props;
@@ -98,7 +108,7 @@ class HeaderMain extends Component {
         </div>
         <div className="header-main-bottom">
           <h3>{this.headerTitle(menus, pathname)}</h3>
-          <span>20191124 15:25</span>
+          <span>{this.state.time}</span>
         </div>
       </div>
     );
