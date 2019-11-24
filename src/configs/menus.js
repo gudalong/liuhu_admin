@@ -13,13 +13,13 @@ export default [
     children:[
       {
         icon:'highlight',
-        title:'美妆美彩',
-        path:'/highlight'
+        title:'分类管理',
+        path:'/category'
       },
       {
         icon:'bank',
-        title:'金融理财',
-        path:'/bank'
+        title:'商品管理',
+        path:'/product'
       },
 
     ]
