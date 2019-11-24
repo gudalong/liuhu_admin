@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
 
-import checkLogin from '../../containers/with-check-login'
 
-@checkLogin
+
+
 class Home extends Component {
   render() {
     return (

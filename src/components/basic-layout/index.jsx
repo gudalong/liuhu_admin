@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Layout, Breadcrumb } from "antd";
 import LeftNav from "./left-nav";
+import checkLogin from '../../containers/with-check-login'
 
 const { Header, Content, Footer, Sider } = Layout;
 
-export default class BasicLayout extends Component {
+@checkLogin
+ class BasicLayout extends Component {
   state = {
     collapsed: false
   };
@@ -49,3 +51,4 @@ export default class BasicLayout extends Component {
     );
   }
 }
+export default BasicLayout
