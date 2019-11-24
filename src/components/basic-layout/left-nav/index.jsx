@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import  PropTypes from 'prop-types'
 import { Menu, Icon } from "antd";
 
 //withRouter是给非路由组件传递路由组件的三大属性，是高阶组件
@@ -11,6 +12,11 @@ const { SubMenu } = Menu;
 
 @withRouter
 class LeftNav extends Component {
+
+  static propTypes = {
+    isDisplay :PropTypes.bool.isRequired
+  }
+
   createMenus = menus => {
     return menus.map(menu => {
       if (menu.children) {
@@ -67,9 +73,9 @@ class LeftNav extends Component {
     const openKey = this.openKey(menus,pathname)
     return (
       <div>
-        <div className="logo">
+        <div className="logo" >
           <img src={logo} alt="logo" />
-          <h1 id="logo-title">硅谷后台</h1>
+          <h1 style={{display: this.props.isDisplay? 'block' : 'none'}}>硅谷后台</h1>
         </div>
 
         <Menu theme="dark" defaultSelectedKeys={[pathname]} defaultOpenKeys={[openKey]} mode="inline">

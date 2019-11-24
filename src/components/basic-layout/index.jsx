@@ -8,13 +8,18 @@ const { Header, Content, Footer, Sider } = Layout;
 @checkLogin
  class BasicLayout extends Component {
   state = {
-    collapsed: false
+    collapsed: false,
+    isDisplay:true
   };
 
   onCollapse = collapsed => {
     console.log(collapsed);
-    this.setState({ collapsed });
-    this.h1logo.classList.toggle("none");
+    this.setState({ 
+      collapsed ,
+      isDisplay:!this.state.isDisplay
+    });
+     
+    // this.h1logo.classList.toggle("none");
   };
 
   componentDidMount() {
@@ -22,14 +27,18 @@ const { Header, Content, Footer, Sider } = Layout;
   }
 
   render() {
+    const {collapsed , isDisplay} = this.state
     return (
       <Layout style={{ minHeight: "100vh" }}>
         <Sider
           collapsible
-          collapsed={this.state.collapsed}
+          collapsed={collapsed}  
           onCollapse={this.onCollapse}
+
+
+          
         >
-          <LeftNav />
+          <LeftNav isDisplay={isDisplay} />
         </Sider>
 
         <Layout>
