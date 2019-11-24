@@ -1,26 +1,26 @@
 import React, { Component } from "react";
-import { Layout} from "antd";
+import { Layout } from "antd";
 // import { Breadcrumb } from 'antd'
 import LeftNav from "./left-nav";
-import checkLogin from '../../containers/with-check-login'
-import HeaderMain from './header-main'
+import checkLogin from "../../containers/with-check-login";
+import HeaderMain from "./header-main";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 @checkLogin
- class BasicLayout extends Component {
+class BasicLayout extends Component {
   state = {
     collapsed: false,
-    isDisplay:true
+    isDisplay: true
   };
 
   onCollapse = collapsed => {
     console.log(collapsed);
-    this.setState({ 
-      collapsed ,
-      isDisplay:!this.state.isDisplay
+    this.setState({
+      collapsed,
+      isDisplay: !this.state.isDisplay
     });
-     
+
     // this.h1logo.classList.toggle("none");
   };
 
@@ -29,23 +29,16 @@ const { Header, Content, Footer, Sider } = Layout;
   }
 
   render() {
-    const {collapsed , isDisplay} = this.state
+    const { collapsed, isDisplay } = this.state;
     return (
       <Layout style={{ minHeight: "100vh" }}>
-        <Sider
-          collapsible
-          collapsed={collapsed}  
-          onCollapse={this.onCollapse}
-
-
-          
-        >
+        <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
           <LeftNav isDisplay={isDisplay} />
         </Sider>
 
         <Layout>
-          <Header style={{ background: "#fff", padding: 0 }} > 
-          <HeaderMain/>
+          <Header style={{ background: "#fff", padding: 0 }}>
+            <HeaderMain />
           </Header>
           <Content style={{ margin: "70px 16px 0" }}>
             {/* <Breadcrumb style={{ margin: "16px 0" }}>
@@ -64,4 +57,4 @@ const { Header, Content, Footer, Sider } = Layout;
     );
   }
 }
-export default BasicLayout
+export default BasicLayout;
