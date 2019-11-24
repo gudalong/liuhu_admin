@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Layout, Breadcrumb } from "antd";
+import { Layout} from "antd";
+// import { Breadcrumb } from 'antd'
 import LeftNav from "./left-nav";
 import checkLogin from '../../containers/with-check-login'
+import HeaderMain from './header-main'
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -42,12 +44,14 @@ const { Header, Content, Footer, Sider } = Layout;
         </Sider>
 
         <Layout>
-          <Header style={{ background: "#fff", padding: 0 }} />
-          <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
+          <Header style={{ background: "#fff", padding: 0 }} > 
+          <HeaderMain/>
+          </Header>
+          <Content style={{ margin: "70px 16px 0" }}>
+            {/* <Breadcrumb style={{ margin: "16px 0" }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb> */}
             <div style={{ padding: 24, background: "#fff", minHeight: 360 }}>
               {this.props.children}
             </div>
