@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { Card, Table, Button, Icon } from "antd";
+import { connect } from "react-redux";
+import { getCategoryAsync } from "../../redux/action-creators/category";
 
-export default class Category extends Component {
-
+@connect(state => ({ categories: state.categories }), { getCategoryAsync })
+class Category extends Component {
+  componentDidMount = () => {
+    this.props.getCategoryAsync();
+  };
 
   columns = [
     {
@@ -24,30 +29,6 @@ export default class Category extends Component {
     }
   ];
 
-   data = [
-    {
-      _id: "5c2ed631f352726338607046",
-      name: "分类001"
-    },
-    {
-      _id: "5c2ed647f352726338607047",
-      name: "分类002"
-    },
-    {
-      _id: "5c2ed64cf352726338607048",
-      name: "分类003"
-    },
-    {
-      _id: "5c2ed64cf352726338607049",
-      name: "分类004"
-    },
-    {
-      _id: "5c2ed64cf352726338607050",
-      name: "分类005"
-    }
-  ];
-
-
   render() {
     return (
       <Card
@@ -61,11 +42,11 @@ export default class Category extends Component {
       >
         <Table
           columns={this.columns}
-          dataSource={this.data}
+          dataSource={this.props.categories}
           bordered
           rowKey="_id"
           pagination={{
-            size:'small',
+            size: "small",
             showQuickJumper: true,
             showSizeChanger: true,
             pageSizeOptions: ["3", "6", "9", "12"],
@@ -76,3 +57,4 @@ export default class Category extends Component {
     );
   }
 }
+export default Category;

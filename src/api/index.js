@@ -1,7 +1,7 @@
 
 import axiosInstance from './request'
 
-const reqLogin = (username, password) => {
+export const reqLogin = (username, password) => {
   return axiosInstance({
     method: "POST",
     url: "/login",
@@ -11,6 +11,12 @@ const reqLogin = (username, password) => {
     }
   })
 }
+export const reqCategories = () => {
+  return axiosInstance({
+    method: "GET",
+    url: "/category/get"
+  })
+}
 
-export  default reqLogin
+
 

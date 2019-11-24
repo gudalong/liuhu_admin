@@ -5,7 +5,7 @@
 */
 
 
-import reqLogin from '../../api/index'
+import {reqLogin} from '../../api/index'
 import {
   GET_USER_SUCCESS,
   REMOVE_USER_SUCCESS

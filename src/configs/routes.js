@@ -1,7 +1,7 @@
 import Home from '../components/home'
 import Login from '../containers/login'
 import NotFound from '../components/404'
-import Category from '../components/category'
+import Category from '../containers/category'
 
 const authRoutes = [
 
@@ -24,7 +24,7 @@ const noAuthRoutes = [{
   path: '/login',
   component: Login,
   exact: true,
-} ]
+}]
 
 export {
   authRoutes,
