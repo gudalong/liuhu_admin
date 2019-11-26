@@ -36,6 +36,7 @@ class HeaderMain extends Component {
 
   timer='';
   componentDidMount = () => {
+    //触发全屏时就执行此函数
     screenfull.on("change", this.screenFn);
     this.timer = setInterval(() => {
       this.setState({

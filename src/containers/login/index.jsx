@@ -68,12 +68,14 @@ class Login extends Component {
             <Item>
               {getFieldDecorator("username", {
                 rules: [
+                  /**第一种校验方式：方便但不可复用 */
                   // { whitespace: true, message: "不能输入空格" },
                   // { required: true, message: "请输入你的用户名!" },
                   // { min: 4, message: "用户名长度不能小于4个字符" },
                   // { max: 13, message: "用户名长度不能超过13个字符" },
                   // { pattern: /\w/, message: "用户名只能包含英文、数字和下划线"},
                   {
+                    /**第二种 */
                     /** 这种表单校验方式相较于上种，可以复用 */
                     validator: this.validator
                   }

@@ -6,7 +6,7 @@ import codeMessage from '../configs/code-message'
 import store from '../redux/store'
 import {removeItem} from '../utils/storage'
 import {removeUserSuccess} from '../redux/action-creators/user'
-import history from '../utils/history'
+// import history from '../utils/history'
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/api",
@@ -77,7 +77,8 @@ axiosInstance.interceptors.response.use(
         removeItem();
         store.dispatch(removeUserSuccess());
         //因为不是在render中所以用history来进行跳转网址
-        history.push('/login')
+        // history.push('/login')
+        this.props.history.push('/login')
       }
 
     } else {
