@@ -3,14 +3,16 @@ import { Card, Table, Button, Icon, Modal } from "antd";
 import { connect } from "react-redux";
 import {
   getCategoryAsync,
-  addCategoryAsync
+  addCategoryAsync,
+  updateCategoryAsync
 } from "../../redux/action-creators/category";
 import AddCategoryForm from "./add-category-form";
 import UpdateCategoryForm from "./update-category-form copy";
 
 @connect(state => ({ categories: state.categories }), {
   getCategoryAsync,
-  addCategoryAsync
+  addCategoryAsync,
+  updateCategoryAsync
 })
 class Category extends Component {
   state = {
@@ -90,18 +92,18 @@ class Category extends Component {
    }
   };
   updateCategoryOk=()=>{
-    this.updateCategoryForm.props.form.validateFields((err,values)=>{
+    this.updateCategoryForm.props.form.validateFields(async(err,values)=>{
       if (!err) {
-        //获取form输入的值
-        // const { categoryName } = values;
+        // 获取form输入的值
+        const { categoryName } = values;
+        const categoryId = this.state.category._id
         //发送请求
-        // await this.props.addCategoryAsync(categoryName);
+        await this.props.updateCategoryAsync(categoryId,categoryName);
         //隐藏对话框
         this.hidden('update')();
       }
     })
   }
-
   render() {
     return (
       <div>

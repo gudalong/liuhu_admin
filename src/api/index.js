@@ -30,5 +30,17 @@ export const addCategory = (categoryName)=>{
   })
 }
 
+//发送修改分类列表请求
+export const updateCategory = (categoryId,categoryName)=>{
+  return axiosInstance({
+    method:'POST',
+    url:'/category/update',
+    data:{
+      categoryId,
+      categoryName
+    }
+  })
+}
+
 
 
