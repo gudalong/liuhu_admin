@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import {
   getCategoryAsync,
   addCategoryAsync,
-  updateCategoryAsync
+  updateCategoryAsync,
+  deleteCategoryAsync
 } from "../../redux/action-creators/category";
 import AddCategoryForm from "./add-category-form";
 import UpdateCategoryForm from "./update-category-form copy";
@@ -12,7 +13,8 @@ import UpdateCategoryForm from "./update-category-form copy";
 @connect(state => ({ categories: state.categories }), {
   getCategoryAsync,
   addCategoryAsync,
-  updateCategoryAsync
+  updateCategoryAsync,
+  deleteCategoryAsync
 })
 class Category extends Component {
   state = {
@@ -42,12 +44,15 @@ class Category extends Component {
             >
               修改分类
             </Button>
-            <Button type="link">删除分类</Button>
+            <Button type="link" onClick={this.showConfirm(category)}>删除分类</Button>
           </div>
         );
       }
     }
   ];
+
+
+  //隐藏函数
   hidden = (name) => {
     return ()=>{
       this.setState({
@@ -59,7 +64,6 @@ class Category extends Component {
       }, 500);
     }
   };
-
   //添加分类
   showAddCategoryModal = () => {
     this.setState({
@@ -80,7 +84,6 @@ class Category extends Component {
       }
     });
   };
-
 
   //更新分类
   showUpdateCategoryModal = category => {
@@ -103,6 +106,27 @@ class Category extends Component {
         this.hidden('update')();
       }
     })
+  }
+
+  //删除分类
+  showConfirm=(category) =>{
+   
+   return ()=>{
+    this.setState({
+      category
+    })
+    Modal.confirm({
+      title: '确定要删除当前分类吗?',
+      content: '注意：删除后无法进行还原',
+      onOk:async()=> {
+        const categoryId = this.state.category._id
+        await this.props.deleteCategoryAsync(categoryId);
+      },
+      onCancel() {},
+      okText:"确认",
+      cancelText:"取消"
+    });
+   }
   }
   render() {
     return (
@@ -159,6 +183,8 @@ class Category extends Component {
             wrappedComponentRef={form => (this.updateCategoryForm = form)}
           />
         </Modal>
+
+
       </div>
     );
   }

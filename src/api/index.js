@@ -42,5 +42,16 @@ export const updateCategory = (categoryId,categoryName)=>{
   })
 }
 
+//发送删除分类列表请求
+export const deleteCategory = (categoryId)=>{
+  return axiosInstance({
+    method:'POST',
+    url:'/category/delete',
+    data:{
+      categoryId
+    }
+  })
+}
+
 
 
