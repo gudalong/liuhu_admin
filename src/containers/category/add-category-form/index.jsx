@@ -7,11 +7,11 @@ class AddCategoryForm extends Component {
     const {getFieldDecorator} =this.props.form
     return (
       <Form>
-        <Form.Item label='品类名称'>
+        <Form.Item label='请输入修改：'>
           {
             getFieldDecorator(
               'categoryName', {
-                rules: [{ required: true, message: '不能为空' }],
+                rules: [{ required: true, message: '不能为空' }]
               }
             )(
                <Input placeholder='请输入分类名称'></Input>
