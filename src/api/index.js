@@ -53,7 +53,17 @@ export const deleteCategory = (categoryId)=>{
   })
 }
 
-
+//发送获取商品列表请求
+export const getProducts = (pageNum,pageSize)=>{
+  return axiosInstance({
+    method:'GET',
+    url:'/product/list',
+    params:{    //get请求不能用data，需要用params
+      pageNum,
+      pageSize
+    }
+  })
+}
 
 
 

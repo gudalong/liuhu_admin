@@ -1,12 +1,26 @@
 import React, { Component } from "react";
 import "./index.less";
 import { Card, Select, Button, Icon, Table, Input } from "antd";
-
+import {getProducts} from '../../api/index'
 
 
 export default class Product extends Component {
 
- 
+  state={
+    dataSource:[],
+    total:0
+  }
+
+  getProducts = async(pageNum,pageSize)=>{
+    const result = await getProducts(pageNum,pageSize)
+    this.setState({
+      dataSource:result.list,
+      total:result.total
+    })
+  }
+  componentDidMount=()=>{
+    this.getProducts(1,3)
+  }
 
 
   columns = [
@@ -50,7 +64,7 @@ export default class Product extends Component {
   ];
 
   render() {
-
+    const {dataSource,total} = this.state
     return (
       <Card
         title={
@@ -72,7 +86,7 @@ export default class Product extends Component {
       >
         <Table
           columns={this.columns}
-          dataSource={[]}
+          dataSource={dataSource}
           bordered
           rowKey="_id"
           pagination={{
@@ -80,7 +94,10 @@ export default class Product extends Component {
             showQuickJumper: true,
             showSizeChanger: true,
             pageSizeOptions: ["3", "6", "9", "12"],
-            defaultPageSize: 6
+            defaultPageSize: 3,
+            total:total,
+            onChange:this.getProducts,
+            onShowSizeChange:this.getProducts,
           }}
         />
       </Card>
