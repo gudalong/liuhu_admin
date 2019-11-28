@@ -79,6 +79,8 @@ class HeaderMain extends Component {
         });
         if (findTitle) {
           return findTitle.title;
+        }else {
+          return menu.title
         }
       } else {
         if (menu.path === pathname) {

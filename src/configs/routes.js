@@ -3,6 +3,7 @@ import Login from '../containers/login'
 import NotFound from '../components/404'
 import Category from '../containers/category'
 import Product from '../components/product'
+import AddProductForm from '../components/product/add-product-form'
 
 const authRoutes = [
 
@@ -19,6 +20,11 @@ const authRoutes = [
   {
     path: '/product',
     component: Product,
+    exact: true,
+  },
+  {
+    path: '/product/add',
+    component: AddProductForm,
     exact: true,
   },
   {

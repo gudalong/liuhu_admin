@@ -1,33 +1,17 @@
 import React, { Component } from "react";
 import "./index.less";
 import { Card, Select, Button, Icon, Table, Input } from "antd";
-import {getProducts} from '../../api/index'
+import {getProducts} from '../../api'
 
 
-export default class Product extends Component {
+class Product extends Component {
 
   state={
     dataSource:[],  //定义table展示数据的的内容
     total:0     //定义当前的数据总数
   }
 
-  
-  componentDidMount=()=>{
-    //首先调用一次获取数据
-    this.getProducts(1,3)
-  }
-  //发送获取数据的方法
-  getProducts = async(pageNum,pageSize)=>{
-    const result = await getProducts(pageNum,pageSize)
-    this.setState({
-      dataSource:result.list,
-      total:result.total
-    })
-  }
-  
-
-
-  columns = [
+   columns = [
     {
       title: "商品名称",
       dataIndex: "name"
@@ -67,6 +51,27 @@ export default class Product extends Component {
     }
   ];
 
+ //发送获取数据的方法
+  getProducts = async(pageNum,pageSize)=>{
+    const result = await getProducts(pageNum,pageSize)
+    this.setState({
+      dataSource:result.list,
+      total:result.total
+    })
+  }
+  componentDidMount=()=>{
+    //首先调用一次获取数据
+    this.getProducts(1,3)
+  }
+ 
+  //点击添加商品事件函数
+  showAddProductModal =()=>{
+    this.props.history.push('/product/add')
+  }
+  
+
+
+ 
   render() {
     const {dataSource,total} = this.state
     return (
@@ -82,7 +87,7 @@ export default class Product extends Component {
           </div>
         }
         extra={
-          <Button type="primary" onClick={this.showAddCategoryModal}>
+          <Button type="primary" onClick={this.showAddProductModal}>
             <Icon type="plus" />
             添加商品
           </Button>
@@ -108,3 +113,4 @@ export default class Product extends Component {
     );
   }
 }
+export default Product
