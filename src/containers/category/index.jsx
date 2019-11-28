@@ -44,25 +44,26 @@ class Category extends Component {
             >
               修改分类
             </Button>
-            <Button type="link" onClick={this.showConfirm(category)}>删除分类</Button>
+            <Button type="link" onClick={this.showConfirm(category)}>
+              删除分类
+            </Button>
           </div>
         );
       }
     }
   ];
 
-
   //隐藏函数
-  hidden = (name) => {
-    return ()=>{
+  hidden = name => {
+    return () => {
       this.setState({
-        [name+"CategoryVisible"]: false
+        [name + "CategoryVisible"]: false
       });
       setTimeout(() => {
         //清空表单的值
-        this[name+'CategoryForm'].props.form.resetFields();
+        this[name + "CategoryForm"].props.form.resetFields();
       }, 500);
-    }
+    };
   };
   //添加分类
   showAddCategoryModal = () => {
@@ -80,54 +81,53 @@ class Category extends Component {
         //发送请求
         await this.props.addCategoryAsync(categoryName);
         //隐藏对话框
-        this.hidden('add')();
+        this.hidden("add")();
       }
     });
   };
 
   //更新分类
   showUpdateCategoryModal = category => {
-   return ()=>{
-    this.setState({
-      updateCategoryVisible: true,
-      category
-    });
-   }
+    return () => {
+      this.setState({
+        updateCategoryVisible: true,
+        category
+      });
+    };
   };
-  updateCategoryOk=()=>{
-    this.updateCategoryForm.props.form.validateFields(async(err,values)=>{
+  updateCategoryOk = () => {
+    this.updateCategoryForm.props.form.validateFields(async (err, values) => {
       if (!err) {
         // 获取form输入的值
         const { categoryName } = values;
-        const categoryId = this.state.category._id
+        const categoryId = this.state.category._id;
         //发送请求
-        await this.props.updateCategoryAsync(categoryId,categoryName);
+        await this.props.updateCategoryAsync(categoryId, categoryName);
         //隐藏对话框
-        this.hidden('update')();
+        this.hidden("update")();
       }
-    })
-  }
+    });
+  };
 
   //删除分类
-  showConfirm=(category) =>{
-   
-   return ()=>{
-    this.setState({
-      category
-    })
-    Modal.confirm({
-      title: '确定要删除当前分类吗?',
-      content: '注意：删除后无法进行还原',
-      onOk:async()=> {
-        const categoryId = this.state.category._id
-        await this.props.deleteCategoryAsync(categoryId);
-      },
-      onCancel() {},
-      okText:"确认",
-      cancelText:"取消"
-    });
-   }
-  }
+  showConfirm = category => {
+    return () => {
+      this.setState({
+        category
+      });
+      Modal.confirm({
+        title: "确定要删除当前分类吗?",
+        content: "注意：删除后无法进行还原",
+        onOk: async () => {
+          const categoryId = this.state.category._id;
+          await this.props.deleteCategoryAsync(categoryId);
+        },
+        onCancel() {},
+        okText: "确认",
+        cancelText: "取消"
+      });
+    };
+  };
   render() {
     return (
       <div>
@@ -161,7 +161,7 @@ class Category extends Component {
           visible={this.state.addCategoryVisible}
           onOk={this.addCategoryOk}
           okText="确认"
-          onCancel={this.hidden('add')}
+          onCancel={this.hidden("add")}
           cancelText="取消"
         >
           <AddCategoryForm
@@ -175,7 +175,7 @@ class Category extends Component {
           visible={this.state.updateCategoryVisible}
           onOk={this.updateCategoryOk}
           okText="确认"
-          onCancel={this.hidden('update')}
+          onCancel={this.hidden("update")}
           cancelText="取消"
         >
           <UpdateCategoryForm
@@ -183,8 +183,6 @@ class Category extends Component {
             wrappedComponentRef={form => (this.updateCategoryForm = form)}
           />
         </Modal>
-
-
       </div>
     );
   }
