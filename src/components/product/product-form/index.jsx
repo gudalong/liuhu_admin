@@ -1,8 +1,17 @@
 import React, { Component } from "react";
-import { Card, Form, Icon, Input, Select, InputNumber, Button,message } from "antd";
+import {
+  Card,
+  Form,
+  Icon,
+  Input,
+  Select,
+  InputNumber,
+  Button,
+  message
+} from "antd";
 
 import { connect } from "react-redux";
-import {addProduct} from '../../../api'
+import { addProduct, updateProduct } from "../../../api";
 import { getCategoryAsync } from "../../../redux/action-creators/category";
 // 引入编辑器组件
 import BraftEditor from "braft-editor";
@@ -12,21 +21,19 @@ import "./index.less";
 
 @Form.create()
 @connect(state => ({ categories: state.categories }), { getCategoryAsync })
-class AddProductForm extends Component {
+class ProductForm extends Component {
   state = {
     // 创建一个空的editorState作为初始值  富文本编辑器的状态
-    editorState: BraftEditor.createEditorState(null),
-    outputHTML: "<p></p>" //文本编辑器的内容
+    editorState: BraftEditor.createEditorState(null)
   };
   //富文本编辑器函数
   handleEditorChange = editorState => {
-    this.setState({ 
-      editorState, 
-      outputHTML: editorState.toHTML()  //获取文本编辑器里的文本值
+    this.setState({
+      editorState
     });
   };
   //富文本编辑器的校验函数
-  validator = (_, value, callback) => {
+  validator = (rule, value, callback) => {
     if (!value || value.isEmpty()) {
       callback("请输入正文内容");
     } else {
@@ -41,21 +48,36 @@ class AddProductForm extends Component {
   goBack = () => {
     this.props.history.goBack();
   };
+
   addProduct = e => {
     e.preventDefault();
-    this.props.form.validateFields(async(err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         //获取表单name,desc,categoryId,price
-        const {name,desc,categoryId,price} = values
+        const { name, desc, price, categoryId, editorState } = values;
         //获取表单中富文本编辑器的文本值
-        const detail = this.state.outputHTML
-        //发送请求
-        await addProduct({name,desc,categoryId,price,detail})
-        //发出提示消息并跳转页面
-        message.success('添加成功');
-        this.goBack()
-
+        const detail = editorState.toHTML();
         
+        const { state } = this.props.location;
+        let content = "添加";
+        if (this.props.location.state) {
+          //修改数据
+          await updateProduct({
+            name,
+            desc,
+            categoryId,
+            price,
+            detail,
+            productId: state._id
+          });
+          content = "修改";
+        } else {
+          //添加数据
+          await addProduct({ name, desc, categoryId, price, detail });
+        }
+        //发出提示消息并跳转页面
+        message.success(`${content}成功`);
+        this.goBack();
       }
     });
   };
@@ -65,14 +87,22 @@ class AddProductForm extends Component {
     const { Option } = Select;
     const {
       categories,
-      form: { getFieldDecorator }
+      form: { getFieldDecorator },
+      location: { state }
     } = this.props;
+
+    let isState = false;
+    if (state) {
+      isState = true;
+    }
+
     return (
       <Card
         title={
           <div>
             <Icon type="arrow-left" onClick={this.goBack} />
-            &nbsp;&nbsp;添加商品
+            &nbsp;&nbsp;
+            {`${isState ? "修改~" : "添加~"}商品`}
           </div>
         }
       >
@@ -83,19 +113,23 @@ class AddProductForm extends Component {
         >
           <Item label="商品名称">
             {getFieldDecorator("name", {
-              rules: [{ required: true, message: "请输入商品名称" }]
+              rules: [{ required: true, message: "请输入商品名称" }],
+              initialValue: isState ? state.name : ""
             })(<Input placeholder="请输入商品名称" />)}
           </Item>
 
           <Item label="商品描述">
             {getFieldDecorator("desc", {
-              rules: [{ required: true, message: "请输入商品描述" }]
+              rules: [{ required: true, message: "请输入商品描述" }],
+              initialValue: isState ? state.desc : ""
             })(<Input placeholder="请输入商品描述" />)}
           </Item>
 
           <Item label="商品分类">
             {getFieldDecorator("categoryId", {
-              rules: [{ required: true, message: "请选择商品分类" }]
+              rules: [{ required: true, message: "请选择商品分类" }],
+              //目前有Bug，未能解决
+              initialValue: isState ? state.categoryId : ""
             })(
               <Select placeholder="请选择商品分类">
                 {categories.map(category => {
@@ -111,7 +145,8 @@ class AddProductForm extends Component {
 
           <Item label="商品价格">
             {getFieldDecorator("price", {
-              rules: [{ required: true, message: "请输入商品价格" }]
+              rules: [{ required: true, message: "请输入商品价格" }],
+              initialValue: isState ? state.price : ""
             })(
               <InputNumber
                 style={{ width: 150 }}
@@ -123,14 +158,17 @@ class AddProductForm extends Component {
             )}
           </Item>
           <Item label="商品详情" wrapperCol={{ span: 22 }}>
-            {getFieldDecorator("details", {
+            {getFieldDecorator("editorState", {
               validateTrigger: "onBlur",
               rules: [
                 {
                   required: true,
                   validator: this.validator
                 }
-              ]
+              ],
+              initialValue: isState
+                ? BraftEditor.createEditorState(state.detail)
+                : ""
             })(
               <BraftEditor
                 className="rich-text-editor"
@@ -150,4 +188,4 @@ class AddProductForm extends Component {
     );
   }
 }
-export default AddProductForm;
+export default ProductForm;

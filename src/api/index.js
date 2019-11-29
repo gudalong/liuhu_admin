@@ -79,7 +79,16 @@ export const addProduct = ({ name, desc, categoryId, price, detail }) => {
     }
   });
 };
-
+//发送更新商品的请求                       
+export const updateProduct = ({ name, desc, categoryId, price, detail,productId }) => {
+  return axiosInstance({
+    method: "POST",
+    url: "/product/update",
+    data: {
+      name, desc, categoryId, price, detail ,productId
+    }
+  });
+};
 //发送删除商品的请求                       
 export const deleteProduct = (productId) => {
   return axiosInstance({
@@ -90,3 +99,5 @@ export const deleteProduct = (productId) => {
     }
   });
 };
+
+

@@ -115,6 +115,8 @@ class Category extends Component {
       this.setState({
         category
       });
+      console.log(category);
+      
       Modal.confirm({
         title: `确定要删除  分类(${category.name})  吗?`,
         content: "注意：删除后无法进行还原",

@@ -11,13 +11,13 @@ class Product extends Component {
     pageNum:1,
     pageSize:3     //只能选择"3", "5", "6","8","9",'12'
   };
+  //删除商品
   deleteProductFirm = product => {
-  
     return () => {
     this.setState({
         product
       });
-      console.log(product);
+      // console.log(product);
 
       Modal.confirm({
         title: `确定要删除  商品(${product.name})  吗?`,
@@ -37,6 +37,13 @@ class Product extends Component {
     };
   };
 
+  //修改商品信息
+  updateProductForm =(product)=>{
+    return ()=>{
+      this.props.history.push("/product/update",product);
+    }
+  }
+  //table表头信息
   columns = [
     {
       title: "商品名称",
@@ -68,10 +75,8 @@ class Product extends Component {
         return (
           <div>
             <Button type="link">详情</Button>
-            <Button type="link">修改</Button>
-            <Button type="link" onClick={this.deleteProductFirm(product)}>
-              删除
-            </Button>
+            <Button type="link" onClick={this.updateProductForm(product)}>修改</Button>
+            <Button type="link" onClick={this.deleteProductFirm(product)}>删除</Button>
           </div>
         );
       }
@@ -86,13 +91,14 @@ class Product extends Component {
       total: result.total
     });
   };
+  //首先调用一次获取商品数据
   componentDidMount = () => {
     //首先调用一次获取数据
     this.getProducts(this.state.pageNum, this.state.pageSize);
   };
 
   //点击添加商品事件函数
-  showAddProductModal = () => {
+  showAddProductForm = () => {
     this.props.history.push("/product/add");
   };
 
@@ -111,7 +117,7 @@ class Product extends Component {
           </div>
         }
         extra={
-          <Button type="primary" onClick={this.showAddProductModal}>
+          <Button type="primary" onClick={this.showAddProductForm}>
             <Icon type="plus" />
             添加商品
           </Button>
