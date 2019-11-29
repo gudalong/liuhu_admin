@@ -10,8 +10,6 @@ import menus from "../../../configs/menus";
 import updateTime from "../../../utils/time";
 import "./index.less";
 
-
-
 @withRouter
 @connect(state => ({ username: state.user.user.username }), {
   removeUserSuccess
@@ -34,7 +32,7 @@ class HeaderMain extends Component {
     });
   };
 
-  timer='';
+  timer = "";
   componentDidMount = () => {
     //触发全屏时就执行此函数
     screenfull.on("change", this.screenFn);
@@ -44,7 +42,7 @@ class HeaderMain extends Component {
       });
     }, 1000);
   };
-  
+
   componentWillUnmount = () => {
     //万一元素不存在的时候就要解绑函数
     screenfull.off("change", this.screenFn);
@@ -79,13 +77,13 @@ class HeaderMain extends Component {
         });
         if (findTitle) {
           return findTitle.title;
-        }else {
-          return menu.title
+        } else {
+          return 1111111;
         }
       } else {
         if (menu.path === pathname) {
           return menu.title;
-        }
+        } 
       }
     }
   };

@@ -103,7 +103,7 @@ class Product extends Component {
             showQuickJumper: true,
             showSizeChanger: true,
             pageSizeOptions: ["3", "6", "9", "12"],
-            defaultPageSize: 3,
+            defaultPageSize: 6,
             total:total,
             onChange:this.getProducts,
             onShowSizeChange:this.getProducts,
