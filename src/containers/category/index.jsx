@@ -116,7 +116,7 @@ class Category extends Component {
         category
       });
       Modal.confirm({
-        title: "确定要删除当前分类吗?",
+        title: `确定要删除  分类(${category.name})  吗?`,
         content: "注意：删除后无法进行还原",
         onOk: async () => {
           const categoryId = this.state.category._id;
@@ -124,7 +124,7 @@ class Category extends Component {
         },
         onCancel() {},
         okText: "确认",
-        cancelText: "取消"
+        cancelText: "再想想~"
       });
     };
   };

@@ -79,3 +79,14 @@ export const addProduct = ({ name, desc, categoryId, price, detail }) => {
     }
   });
 };
+
+//发送删除商品的请求                       
+export const deleteProduct = (productId) => {
+  return axiosInstance({
+    method: "POST",
+    url: "/product/delete",
+    data: {
+      productId
+    }
+  });
+};
