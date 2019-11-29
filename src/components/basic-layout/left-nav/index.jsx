@@ -69,7 +69,9 @@ class LeftNav extends Component {
 
  
   render() {
-    const pathname = this.props.location.pathname
+    let pathname = this.props.location.pathname
+    //因为有了三级路由，为了自动选择左侧导航栏目标，添加以下逻辑
+    pathname = pathname.startsWith('/product')?  '/product':pathname
     const openKey = this.openKey(menus,pathname)
     return (
       <div>

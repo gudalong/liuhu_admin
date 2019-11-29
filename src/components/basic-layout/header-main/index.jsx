@@ -73,12 +73,13 @@ class HeaderMain extends Component {
       const menu = menus[index];
       if (menu.children) {
         let findTitle = menu.children.find(cmenu => {
-          return cmenu.path === pathname;
+          // return cmenu.path === pathname;
+          //因为有了三级路由，所以更改成了以下匹配逻辑
+          return pathname.startsWith(cmenu.path);
+
         });
         if (findTitle) {
           return findTitle.title;
-        } else {
-          return 1111111;
         }
       } else {
         if (menu.path === pathname) {
